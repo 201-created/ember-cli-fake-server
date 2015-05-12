@@ -14,10 +14,10 @@ export function error(status, errors){
   return [status, jsonMimeType, errors];
 }
 
-export function notFound(status){
-  if (!status) { status = STATUS_CODES.notFound; }
+export function notFound(status, json){
+  if (!json) { json = status || {}; status = STATUS_CODES.notFound; }
 
-  return [status, jsonMimeType, {}];
+  return [status, jsonMimeType, json];
 }
 
 export function ok(status, json){

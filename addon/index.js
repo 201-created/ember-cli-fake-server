@@ -3,6 +3,8 @@ import Ember from 'ember';
 import * as Responses from './lib/responses';
 
 let currentServer;
+let namespace;
+let fixtureFactory;
 
 function stringifyJSON(json){
   return json ? JSON.stringify(json) : '{"error": "not found"}';
@@ -39,6 +41,8 @@ function bindResponses(request, responseRef){
 }
 
 export function stubRequest(verb, path, callback){
+  path = preparePath(path);
+
   Ember.assert('[FakeServer] cannot stub request if FakeServer is not running',
                !!currentServer);
 
@@ -54,7 +58,8 @@ export function stubRequest(verb, path, callback){
       success: Responses.ok,
       noContent: Responses.noContent,
       error: Responses.error,
-      notFound: Responses.notFound
+      notFound: Responses.notFound,
+      fixture: fixtureFactory
     };
 
     let returnValue = callback.call(context, request);
@@ -68,7 +73,21 @@ export function stubRequest(verb, path, callback){
   currentServer[verb](path, boundCallback);
 }
 
+function preparePath(path){
+  let paths = [path];
+  if (namespace) { paths.unshift(namespace); }
+  return paths.join('/');
+}
+
 export default {
+  configureNamespace(_namespace){
+    namespace = _namespace;
+  },
+
+  configureFixtures(_fixtureFactory){
+    fixtureFactory = _fixtureFactory;
+  },
+
   start() {
     Ember.assert('[FakeServer] Cannot start FakeServer while already started.',
                  !currentServer);
@@ -86,5 +105,7 @@ export default {
     }
     currentServer.shutdown();
     currentServer = null;
+    fixtureFactory = null;
+    namespace = null;
   }
 };
