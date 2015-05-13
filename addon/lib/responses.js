@@ -6,6 +6,10 @@ export const STATUS_CODES = {
   noContent: 204
 };
 
+export const RESPONSE_ALIASES = {
+  ok: ['success']
+};
+
 const jsonMimeType = {"Content-Type": "application/json"};
 
 export function error(status, errors){
