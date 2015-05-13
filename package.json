@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-fake-server",
   "version": "0.2.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "An addon to simplify stubbing ajax requests and responses in ember tests.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "http://github.com/201-created/ember-cli-fake-server",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -36,6 +36,7 @@
   "keywords": [
     "ember-addon",
     "testing",
+    "ajax",
     "pretender"
   ],
   "dependencies": {
