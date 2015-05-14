@@ -21,7 +21,7 @@ test('some ajax', (assert) => {
   assert.expect(1);
   
   let didCallAjax = false;
-  stubRequest('get', '/some-ur', (request) => {
+  stubRequest('get', '/some-url', (request) => {
     didCallAjax = true;
     request.ok({}); // send empty response back
   });
