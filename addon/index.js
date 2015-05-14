@@ -69,7 +69,7 @@ export function stubRequest(verb, path, callback){
   currentServer[verb](path, boundCallback);
 }
 
-export default {
+let FakeServer = {
   configure: {
     fixtureFactory(fixtureFactory) {
       _config.fixtureFactory = fixtureFactory;
@@ -82,7 +82,7 @@ export default {
   start() {
     Ember.assert('[FakeServer] Cannot start FakeServer while already started. ' +
                  'Ensure you call `FakeServer.stop()` first.',
-                 !currentServer);
+                 !FakeServer.isRunning());
 
     currentServer = new Pretender();
     currentServer.prepareBody = JSONUtils.stringifyJSON;
@@ -90,8 +90,12 @@ export default {
     currentServer.handledRequest = Logging.handledRequest;
   },
 
+  isRunning() {
+    return !!currentServer;
+  },
+
   stop() {
-    if (!currentServer) {
+    if (!FakeServer.isRunning()) {
       Ember.Logger.warn('[FakeServer] called `stop` without having started.');
       return;
     }
@@ -101,3 +105,5 @@ export default {
     _config = defaultConfig();
   }
 };
+
+export default FakeServer;
