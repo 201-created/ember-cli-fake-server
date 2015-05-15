@@ -1,25 +1,42 @@
-# Ember-cli-fake-server
+[![Build Status](https://travis-ci.org/201-created/ember-cli-fake-server.svg?branch=master)](https://travis-ci.org/201-created/ember-cli-fake-server)
+
+# ember-cli-fake-server
 
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+* `ember install ember-cli-fake-server`
+* Add `FakeServer.start()` and `FakeServer.stop()` to test setup/teardown methods, i.e. using `QUnit.testStart` and `QUnit.testDone`
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+In a test, import `stubRequest` from 'ember-cli-fake-server':
 
-## Running Tests
+```
+import FakeServer from 'ember-cli-fake-server';
+import { stubRequest } from 'ember-cli-fake-server';
 
-* `ember test`
-* `ember test --server`
+module('using ember-cli-fake-server', {
+  setup() { FakeServer.start(); },
+  teardown() { FakeServer.stop(); }
+});
 
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+test('some ajax', (assert) => {
+  const done = assert.async();
+  assert.expect(1);
+  
+  let didCallAjax = false;
+  stubRequest('get', '/some-url', (request) => {
+    didCallAjax = true;
+    request.ok({}); // send empty response back
+  });
+  
+  Ember.$.ajax('/some-url', {
+    complete() {
+      assert.ok(didCallAjax, 'called ajax');
+      done();
+    }
+  });
+});
+```
