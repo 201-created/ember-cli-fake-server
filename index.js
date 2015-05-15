@@ -12,7 +12,6 @@ function lazyLoad(moduleName){
 
 module.exports = {
   name: 'ember-cli-fake-server',
-  isDevelopingAddon: function() { return true; },
   included: function(app) {
     this.app = app;
 
