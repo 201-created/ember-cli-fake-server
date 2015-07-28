@@ -13,9 +13,8 @@ This README outlines the details of collaborating on this Ember addon.
 
 In a test, import `stubRequest` from 'ember-cli-fake-server':
 
-```
-import FakeServer from 'ember-cli-fake-server';
-import { stubRequest } from 'ember-cli-fake-server';
+```javascript
+import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 
 module('using ember-cli-fake-server', {
   setup() { FakeServer.start(); },
