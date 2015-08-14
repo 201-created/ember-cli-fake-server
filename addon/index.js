@@ -18,7 +18,7 @@ function defaultConfig() {
 }
 
 function bindResponses(request, responseRef){
-  Ember.keys(Responses.STATUS_CODES).forEach((key) => {
+  Object.keys(Responses.STATUS_CODES).forEach((key) => {
     request[key] = (...args) => {
       if (responseRef.response) {
         throw new Error(`[FakeServer] Stubbed Request responded with "${key}" after already responding`);
@@ -28,7 +28,7 @@ function bindResponses(request, responseRef){
       return response;
     };
   });
-  Ember.keys(Responses.RESPONSE_ALIASES).forEach((key) => {
+  Object.keys(Responses.RESPONSE_ALIASES).forEach((key) => {
     let aliases = Responses.RESPONSE_ALIASES[key];
     aliases.forEach((alias) => request[alias] = request[key]);
   });
