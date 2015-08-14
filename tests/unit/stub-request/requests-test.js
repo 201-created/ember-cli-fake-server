@@ -16,7 +16,7 @@ module('ember-cli-fake-server:stubRequest responses', {
   }
 });
 
-Ember.keys(STATUS_CODES).forEach((key) => {
+Object.keys(STATUS_CODES).forEach((key) => {
   let code = STATUS_CODES[key];
   const message = `\`request#${key}\` returns status code ${code}`;
 
@@ -41,7 +41,7 @@ Ember.keys(STATUS_CODES).forEach((key) => {
   });
 });
 
-Ember.keys(STATUS_CODES).forEach((key) => {
+Object.keys(STATUS_CODES).forEach((key) => {
   let code = STATUS_CODES[key];
   const message = `returning \`this#${key}\` in request handler returns status code ${code}`;
 
