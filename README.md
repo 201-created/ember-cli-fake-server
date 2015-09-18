@@ -97,16 +97,24 @@ stubRequest('put', '/users/1', (request) => {
 The `request` parameter passed to your callback also has a `json` method that returns the incoming JSON payload.
 
 Example:
-```
-stubRequest('get', '/users/1', (request) => {
+
+```javascript
+stubRequest('post', '/users/1', (request) => {
   alert(request.json().user.name); // alerts "Cory"
 });
 
-jQuery.ajax('/blah', {
+jQuery.ajax('/users/1', {
   type: 'POST',
   data: JSON.stringify({user: {id: 1, name: "Cory"}}),
   dataType: 'json',
-  contentType: 'application/json; charset=utf-8',
-  complete: done
+  contentType: 'application/json; charset=utf-8'
 });
 ```
+
+### Reading other request data
+
+The `request` parameter passed to your callback function is the same one (albeit with some additional methods added on) that Pretender uses, so you can use the same properties it exposes for reading data such as `request.params` and [`request.queryParams`](https://github.com/pretenderjs/pretender#query-parameters).
+
+### Unexpected requests
+
+ember-cli-fake-server is configured to intercept *all* ajax requests after you call `FakeServer.start()`. Any ajax request that was not stubbed before it was made will [throw an error](https://github.com/201-created/ember-cli-fake-server/blob/master/addon/lib/logging.js#L4) explaining the method and path of the unhandled request.
