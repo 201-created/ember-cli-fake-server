@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/201-created/ember-cli-fake-server.svg?branch=master)](https://travis-ci.org/201-created/ember-cli-fake-server)
+[![Ember Observer Score](http://emberobserver.com/badges/ember-cli-fake-server.svg)](http://emberobserver.com/addons/ember-cli-fake-server)
 
 # ember-cli-fake-server
 
