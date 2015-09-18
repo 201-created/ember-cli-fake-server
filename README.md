@@ -10,6 +10,8 @@ ember-cli-fake-server is an ember-cli addon that makes it extremely simple to st
 ## Installation
 
 * `ember install ember-cli-fake-server`
+* Call `FakeServer.start()` to start stubbing, and `FakeServer.stop()` to stop stubbing
+* In tests, use `stubRequest(verb, path, callback)` to stub ajax requests
 
 ## Usage
 
