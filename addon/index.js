@@ -68,7 +68,7 @@ export function stubRequest(verb, path, callback){
     return returnValue;
   };
 
-  currentServer[verb](path, boundCallback);
+  currentServer[verb.toLowerCase()](path, boundCallback);
 }
 
 let FakeServer = {
