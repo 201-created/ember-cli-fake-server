@@ -41,6 +41,17 @@ test('stubs ajax calls', (assert) => {
   jQuery.ajax('/blah', {complete:done});
 });
 
+test('stubs ajax calls with upper-case verbs', (assert) => {
+  let done = assert.async();
+  assert.expect(1);
+
+  stubRequest('GET', '/blah', (request) => {
+    assert.ok(true, 'Handled request');
+  });
+
+  jQuery.ajax('/blah', {complete:done});
+});
+
 test('responds to ajax', (assert) => {
   let done = assert.async();
   assert.expect(2);
