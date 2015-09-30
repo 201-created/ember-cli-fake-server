@@ -10,7 +10,7 @@ module.exports = {
 
   afterInstall: function() {
     return this.addBowerPackagesToProject([
-      {name: 'pretender', target: '~0.6.0'}
+      {name: 'pretender', target: '~0.10.0'}
     ]);
   }
 };
