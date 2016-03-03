@@ -70,6 +70,7 @@ The `request` parameter has the following methods, corresponding to HTTP status 
   * `notFound` — 404
   * `created` — 201
   * `noContent` — 204
+  * `unauthorized` — 401
 
 Call the appropriate method on `request` with your JSON payload to make `stubRequest` respond with that status code and payload.
 

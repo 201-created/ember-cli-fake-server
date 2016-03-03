@@ -57,14 +57,11 @@ export function stubRequest(verb, path, callback){
 
     let context = {
       json: JSONUtils.jsonFromRequest,
-      ok: Responses.ok,
-      created: Responses.created,
-      success: Responses.ok,
-      noContent: Responses.noContent,
-      error: Responses.error,
-      notFound: Responses.notFound,
       fixture: _config.fixtureFactory
     };
+    Object.keys(Responses).forEach(key => {
+      context[key] = Responses[key];
+    });
 
     let returnValue = callback.call(context, request);
     returnValue = returnValue || responseRef.response;
