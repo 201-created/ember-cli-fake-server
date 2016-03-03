@@ -34,6 +34,14 @@ function bindResponses(request, responseRef){
   });
 }
 
+export function passthroughRequest(verb, path) {
+  path = _config.preparePath(path);
+  Ember.assert('[FakeServer] cannot passthrough request if FakeServer is not running',
+               !!currentServer);
+
+  currentServer[verb.toLowerCase()](path, currentServer.passthrough);
+}
+
 export function stubRequest(verb, path, callback){
   path = _config.preparePath(path);
   Ember.assert('[FakeServer] cannot stub request if FakeServer is not running',
@@ -71,7 +79,7 @@ export function stubRequest(verb, path, callback){
   currentServer[verb.toLowerCase()](path, boundCallback);
 }
 
-let FakeServer = {
+const FakeServer = {
   configure: {
     fixtureFactory(fixtureFactory) {
       _config.fixtureFactory = fixtureFactory;
@@ -86,7 +94,7 @@ let FakeServer = {
                  'Ensure you call `FakeServer.stop()` first.',
                  !FakeServer.isRunning());
 
-    currentServer = new Pretender();
+    currentServer = this._currentServer = new Pretender();
     currentServer.prepareBody = JSONUtils.stringifyJSON;
     currentServer.unhandledRequest = Logging.unhandledRequest;
     currentServer.handledRequest = Logging.handledRequest;
@@ -102,7 +110,7 @@ let FakeServer = {
       return;
     }
     currentServer.shutdown();
-    currentServer = null;
+    currentServer = this._currentServer = null;
 
     _config = defaultConfig();
   }
