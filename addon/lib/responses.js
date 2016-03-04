@@ -3,7 +3,8 @@ export const STATUS_CODES = {
   notFound: 404,
   ok: 200,
   created: 201,
-  noContent: 204
+  noContent: 204,
+  unauthorized: 401
 };
 
 export const RESPONSE_ALIASES = {
@@ -38,6 +39,12 @@ export function created(status, json){
 
 export function noContent(status){
   if (!status) { status = STATUS_CODES.noContent; }
+
+  return [status, jsonMimeType, ''];
+}
+
+export function unauthorized(status){
+  if (!status) { status = STATUS_CODES.unauthorized; }
 
   return [status, jsonMimeType, ''];
 }
