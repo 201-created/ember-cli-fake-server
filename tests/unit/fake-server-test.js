@@ -1,5 +1,6 @@
 /*global QUnit*/
-import FakeServer, { stubRequest } from 'ember-cli-fake-server';
+import FakeServer from 'ember-cli-fake-server';
+import { stubRequest } from 'ember-cli-fake-server';
 import jQuery from 'jquery';
 
 let module = QUnit.module, test = QUnit.test;
@@ -34,7 +35,7 @@ test('stubs ajax calls', (assert) => {
   let done = assert.async();
   assert.expect(1);
 
-  stubRequest('get', '/blah', (request) => {
+  stubRequest('get', '/blah', () => {
     assert.ok(true, 'Handled request');
   });
 
@@ -45,7 +46,7 @@ test('stubs ajax calls with upper-case verbs', (assert) => {
   let done = assert.async();
   assert.expect(1);
 
-  stubRequest('GET', '/blah', (request) => {
+  stubRequest('GET', '/blah', () => {
     assert.ok(true, 'Handled request');
   });
 
@@ -63,7 +64,7 @@ test('responds to ajax', (assert) => {
   });
 
   jQuery.ajax('/blah', {
-    success(json, textStatus, jqXHR) {
+    success(json, textStatus /*, jqXHR */) {
       assert.equal(textStatus, 'success', 'textStatus === success');
       assert.deepEqual(json, payload, 'has expected payload');
     },

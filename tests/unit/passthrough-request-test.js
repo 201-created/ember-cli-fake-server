@@ -1,8 +1,6 @@
 /*global QUnit*/
-import FakeServer, { passthroughRequest } from 'ember-cli-fake-server';
-import Pretender from 'pretender';
-import jQuery from 'jquery';
-import Ember from 'ember';
+import FakeServer from 'ember-cli-fake-server';
+import { passthroughRequest } from 'ember-cli-fake-server';
 
 const { module, test } = QUnit;
 
