@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fake-server",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "An addon to simplify stubbing ajax requests and responses in ember tests.",
   "directories": {
     "doc": "doc",
