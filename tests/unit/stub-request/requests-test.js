@@ -1,8 +1,8 @@
 /*global QUnit*/
-import FakeServer, { stubRequest } from 'ember-cli-fake-server';
+import FakeServer from 'ember-cli-fake-server';
+import { stubRequest } from 'ember-cli-fake-server';
 import { STATUS_CODES } from 'ember-cli-fake-server/lib/responses';
 import jQuery from 'jquery';
-import Ember from 'ember';
 
 let module = QUnit.module, test = QUnit.test;
 
@@ -33,7 +33,7 @@ Object.keys(STATUS_CODES).forEach((key) => {
       success(json, textStatus, jqXHR) {
         assert.equal(jqXHR.status, code, message);
       },
-      error(jqXHR, textStatus, errorThrown) {
+      error(jqXHR /*, textStatus, errorThrown*/) {
         assert.equal(jqXHR.status, code, message);
       },
       complete: done
@@ -58,7 +58,7 @@ Object.keys(STATUS_CODES).forEach((key) => {
       success(json, textStatus, jqXHR) {
         assert.equal(jqXHR.status, code, message);
       },
-      error(jqXHR, textStatus, errorThrown) {
+      error(jqXHR/*, textStatus, errorThrown*/) {
         assert.equal(jqXHR.status, code, message);
       },
       complete: done
