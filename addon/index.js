@@ -59,8 +59,12 @@ export function stubRequest(verb, path, callback){
       json: JSONUtils.jsonFromRequest,
       fixture: _config.fixtureFactory
     };
-    Object.keys(Responses).forEach(key => {
+    Object.keys(Responses.STATUS_CODES).forEach(key => {
       context[key] = Responses[key];
+    });
+    Object.keys(Responses.RESPONSE_ALIASES).forEach(key => {
+      let aliases = Responses.RESPONSE_ALIASES[key];
+      aliases.forEach(alias => context[alias] = context[key]);
     });
 
     let returnValue = callback.call(context, request);

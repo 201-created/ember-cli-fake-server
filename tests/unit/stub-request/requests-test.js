@@ -1,6 +1,6 @@
 /*global QUnit*/
 import FakeServer, { stubRequest } from 'ember-cli-fake-server';
-import { STATUS_CODES } from 'ember-cli-fake-server/lib/responses';
+import { STATUS_CODES, RESPONSE_ALIASES } from 'ember-cli-fake-server/lib/responses';
 import jQuery from 'jquery';
 import Ember from 'ember';
 
@@ -16,17 +16,15 @@ module('ember-cli-fake-server:stubRequest responses', {
   }
 });
 
-Object.keys(STATUS_CODES).forEach((key) => {
-  let code = STATUS_CODES[key];
-  const message = `\`request#${key}\` returns status code ${code}`;
+function testRequestMethod(methodName, code) {
+  let message = `\`request#${methodName}\` returns status code ${code}`;
 
   test(message, (assert) => {
-    let code = STATUS_CODES[key];
     let done = assert.async();
     assert.expect(1);
 
     stubRequest('get', '/', (req) => {
-      req[key]();
+      req[methodName]();
     });
 
     jQuery.ajax('/', {
@@ -39,19 +37,17 @@ Object.keys(STATUS_CODES).forEach((key) => {
       complete: done
     });
   });
-});
+}
 
-Object.keys(STATUS_CODES).forEach((key) => {
-  let code = STATUS_CODES[key];
-  const message = `returning \`this#${key}\` in request handler returns status code ${code}`;
+function testCallbackContext(methodName, code) {
+  let message = `\`this#${methodName}\` returns status code ${code}`;
 
   test(message, (assert) => {
-    let code = STATUS_CODES[key];
     let done = assert.async();
     assert.expect(1);
 
     stubRequest('get', '/', function() {
-      return this[key]();
+      return this[methodName]();
     });
 
     jQuery.ajax('/', {
@@ -63,5 +59,21 @@ Object.keys(STATUS_CODES).forEach((key) => {
       },
       complete: done
     });
+  });
+}
+
+Object.keys(STATUS_CODES).forEach((key) => {
+  let code = STATUS_CODES[key];
+  testRequestMethod(key, code);
+  testCallbackContext(key, code);
+});
+
+Object.keys(RESPONSE_ALIASES).forEach((aliasKey) => {
+  let aliases = RESPONSE_ALIASES[aliasKey];
+  let code = STATUS_CODES[aliasKey];
+
+  aliases.forEach(methodName => {
+    testRequestMethod(methodName, code);
+    testCallbackContext(methodName, code);
   });
 });
