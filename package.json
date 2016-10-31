@@ -13,7 +13,7 @@
   },
   "repository": "http://github.com/201-created/ember-cli-fake-server",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "author": "Cory Forsyth",
   "license": "MIT",
