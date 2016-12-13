@@ -22,18 +22,19 @@ In your test, use `stubRequest` for each ajax request you would like to stub.
 Here's an example ember test:
 
 ```javascript
+import { module, test } from 'ember-qunit';
 import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 
-QUnit.module('using ember-cli-fake-server', {
-  setup() {
+module('using ember-cli-fake-server', {
+  beforeEach() {
     FakeServer.start();
   },
-  teardown() {
+  afterEach() {
     FakeServer.stop();
   }
 });
 
-QUnit.test('some ajax', (assert) => {
+test('some ajax', (assert) => {
   const done = assert.async();
   assert.expect(1);
   

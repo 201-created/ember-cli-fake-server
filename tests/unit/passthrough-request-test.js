@@ -1,8 +1,5 @@
-/*global QUnit*/
-import FakeServer from 'ember-cli-fake-server';
-import { passthroughRequest } from 'ember-cli-fake-server';
-
-const { module, test } = QUnit;
+import { module, test } from 'ember-qunit';
+import FakeServer, { passthroughRequest } from 'ember-cli-fake-server';
 
 let passthrough, pretender;
 

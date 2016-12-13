@@ -1,9 +1,6 @@
-/*global QUnit*/
-import FakeServer from 'ember-cli-fake-server';
-import { stubRequest } from 'ember-cli-fake-server';
+import { module, test } from 'ember-qunit';
+import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 import jQuery from 'jquery';
-
-let module = QUnit.module, test = QUnit.test;
 
 module('ember-cli-fake-server: FakeServer', {
   afterEach() {
