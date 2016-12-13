@@ -24,23 +24,6 @@ module.exports = {
     }
   },
 
-  included: function(app) {
-    if (typeof app.import !== 'function' && app.app) {
-      app = app.app;
-    }
-
-    this.app = app;
-
-    this._super.included.apply(this, arguments);
-
-    if (this._shouldIncludeFiles()) {
-      app.import('vendor/ember-cli-fake-server/pretender-shim.js', {
-        type: 'vendor',
-        exports: { 'pretender': ['default'] }
-      });
-    }
-  },
-
   treeFor: function() {
     if (this._shouldIncludeFiles()) {
       return this._super.treeFor.apply(this, arguments);
