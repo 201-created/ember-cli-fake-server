@@ -8,6 +8,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.npm
+    - $HOME/.yarn-cache
     - $HOME/.cache # includes bowers cache
 
 env:
