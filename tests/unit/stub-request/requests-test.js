@@ -7,11 +7,11 @@ import jQuery from 'jquery';
 let module = QUnit.module, test = QUnit.test;
 
 module('ember-cli-fake-server:stubRequest responses', {
-  setup() {
+  beforeEach() {
     FakeServer.start();
   },
 
-  teardown() {
+  afterEach() {
     FakeServer.stop();
   }
 });

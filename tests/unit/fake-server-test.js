@@ -6,7 +6,7 @@ import jQuery from 'jquery';
 let module = QUnit.module, test = QUnit.test;
 
 module('ember-cli-fake-server: FakeServer', {
-  teardown() {
+  afterEach() {
     if (FakeServer.isRunning()) {
       FakeServer.stop();
     }
@@ -22,11 +22,11 @@ test('#start throws if called while already started', (assert) => {
 });
 
 module('ember-cli-fake-server: stubRequest', {
-  setup() {
+  beforeEach() {
     FakeServer.start();
   },
 
-  teardown() {
+  afterEach() {
     FakeServer.stop();
   }
 });

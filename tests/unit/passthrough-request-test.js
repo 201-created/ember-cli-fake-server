@@ -7,13 +7,13 @@ const { module, test } = QUnit;
 let passthrough, pretender;
 
 module('ember-cli-fake-server:stubRequest responses', {
-  setup() {
+  beforeEach() {
     FakeServer.start();
     pretender = FakeServer._currentServer;
     passthrough = pretender.passthrough;
   },
 
-  teardown() {
+  afterEach() {
     if (FakeServer.isRunning()) {
       FakeServer.stop();
     }
