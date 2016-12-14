@@ -1,17 +1,14 @@
-/*global QUnit*/
-import FakeServer from 'ember-cli-fake-server';
-import { stubRequest } from 'ember-cli-fake-server';
+import { module, test } from 'ember-qunit';
+import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 import { STATUS_CODES, RESPONSE_ALIASES } from 'ember-cli-fake-server/lib/responses';
 import jQuery from 'jquery';
 
-let module = QUnit.module, test = QUnit.test;
-
 module('ember-cli-fake-server:stubRequest responses', {
-  setup() {
+  beforeEach() {
     FakeServer.start();
   },
 
-  teardown() {
+  afterEach() {
     FakeServer.stop();
   }
 });

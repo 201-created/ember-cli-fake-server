@@ -1,19 +1,16 @@
-/*global QUnit*/
-import FakeServer from 'ember-cli-fake-server';
-import { passthroughRequest } from 'ember-cli-fake-server';
-
-const { module, test } = QUnit;
+import { module, test } from 'ember-qunit';
+import FakeServer, { passthroughRequest } from 'ember-cli-fake-server';
 
 let passthrough, pretender;
 
 module('ember-cli-fake-server:stubRequest responses', {
-  setup() {
+  beforeEach() {
     FakeServer.start();
     pretender = FakeServer._currentServer;
     passthrough = pretender.passthrough;
   },
 
-  teardown() {
+  afterEach() {
     if (FakeServer.isRunning()) {
       FakeServer.stop();
     }

@@ -12,17 +12,15 @@ function lazyLoad(moduleName){
 
 module.exports = {
   name: 'ember-cli-fake-server',
-  included: function(app) {
-    this.app = app;
 
-    if (this._shouldIncludeFiles()) {
-      app.import(app.bowerDirectory + '/FakeXMLHttpRequest/fake_xml_http_request.js');
-      app.import(app.bowerDirectory + '/route-recognizer/dist/route-recognizer.js');
-      app.import(app.bowerDirectory + '/pretender/pretender.js');
-      app.import('vendor/ember-cli-fake-server/pretender-shim.js', {
-        type: 'vendor',
-        exports: { 'pretender': ['default'] }
-      });
+  options: {
+    nodeAssets: {
+      'route-recognizer': npmAsset({
+        path: 'dist/route-recognizer.js',
+        sourceMap: 'dist/route-recognizer.js.map'
+      }),
+      'fake-xml-http-request': npmAsset('fake_xml_http_request.js'),
+      'pretender': npmAsset('pretender.js')
     }
   },
 
@@ -55,6 +53,16 @@ module.exports = {
   },
 
   _shouldIncludeFiles: function(){
+    if (process.env.EMBER_CLI_FASTBOOT) { return false; }
     return this.app.env !== 'production';
   }
 };
+
+function npmAsset(filePath) {
+  return function() {
+    return {
+      enabled: this._shouldIncludeFiles(),
+      import: [filePath]
+    };
+  };
+}
