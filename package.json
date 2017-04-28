@@ -21,7 +21,7 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^5.1.7",
+    "ember-cli-babel": "^6.1.0",
     "ember-cli-node-assets": "^0.1.6",
     "fake-xml-http-request": "^1.4.0",
     "pretender": "^1.4.2",
