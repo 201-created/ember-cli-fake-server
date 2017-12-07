@@ -124,3 +124,31 @@ The `request` parameter passed to your callback function is the same one (albeit
 ### Unexpected requests
 
 ember-cli-fake-server is configured to intercept *all* ajax requests after you call `FakeServer.start()`. Any ajax request that was not stubbed before it was made will [throw an error](https://github.com/201-created/ember-cli-fake-server/blob/master/addon/lib/logging.js#L4) explaining the method and path of the unhandled request.
+
+### Modifying responses
+
+Use `FakeRequest.configure.afterResponse(fn)` to specify an afterResponse
+callback. This can be used to globally modify all requests in some specified
+way. The function you pass to `afterResponse` will be called with two arguments:
+`response` and `request`. It must return an array of `[statusCode, headers, json|string]`.
+
+Example:
+
+```javascript
+FakeRequest.configure.afterResponse(function(response /*, request */) {
+  // response === [200, {"content-type": "application/json"}, {foo: 'bar'}]
+  let [status, headers, json] = response;
+  if (json.foo) { // optionally modify json
+    json.foo = 'baz'
+  }
+  return [status, headers, json];
+});
+
+FakeServer.stubRequest('get', '/users/1', function(request) {
+  let response = this.ok({foo: 'bar'});
+
+  // `response` is passed as 1st argument to afterResponse hook,
+  // `request` is passed as 2nd argument.
+  return response;
+});
+```
