@@ -13,17 +13,6 @@ function lazyLoad(moduleName){
 module.exports = {
   name: 'ember-cli-fake-server',
 
-  options: {
-    nodeAssets: {
-      'route-recognizer': npmAsset({
-        path: 'dist/route-recognizer.js',
-        sourceMap: 'dist/route-recognizer.js.map'
-      }),
-      'fake-xml-http-request': npmAsset('fake_xml_http_request.js'),
-      'pretender': npmAsset('pretender.js')
-    }
-  },
-
   treeFor: function() {
     if (this._shouldIncludeFiles()) {
       return this._super.treeFor.apply(this, arguments);
@@ -57,12 +46,3 @@ module.exports = {
     return this.app.env !== 'production';
   }
 };
-
-function npmAsset(filePath) {
-  return function() {
-    return {
-      enabled: this._shouldIncludeFiles(),
-      import: [filePath]
-    };
-  };
-}
