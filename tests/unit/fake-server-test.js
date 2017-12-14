@@ -88,3 +88,45 @@ test('#json reads JSON in request payload', (assert) => {
     complete: done
   });
 });
+
+test('FakeServer.config.afterResponse can modify responses', (assert) => {
+  let done = assert.async();
+  assert.expect(6);
+
+  let originalResponse = [
+    200,
+    {"content-type": "application/json"},
+    {original: true}
+  ];
+
+  let modifiedResponse = [
+    201,
+    {"content-type": "application/json", "x-fake-header": "foo"},
+    {original: false, modified: true}
+  ];
+
+  FakeServer.configure.afterResponse((response, request) => {
+    assert.ok(!!request, 'passes request');
+    assert.deepEqual(response, originalResponse, 'passes original response');
+    return modifiedResponse;
+  });
+
+  stubRequest('get', '/blah', function () {
+    return originalResponse;
+  });
+
+  jQuery.ajax('/blah', {
+    complete(jqXHR, textStatus) {
+      assert.equal(textStatus, 'success');
+      assert.equal(jqXHR.status, modifiedResponse[0]);
+      assert.deepEqual(
+        jqXHR.responseJSON,
+        modifiedResponse[2],
+        'uses JSON response from afterResponse handler');
+      assert.ok(
+        jqXHR.getAllResponseHeaders().indexOf('x-fake-header') !== -1,
+        'includes headers from afterResponse handler');
+      done();
+    }
+  });
+});

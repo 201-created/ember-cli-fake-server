@@ -13,7 +13,8 @@ function defaultConfig() {
     preparePath: (path) => path,
     fixtureFactory: () => {
       Ember.Logger.warn('[FakeServer] `fixture` called but no fixture factory is registered');
-    }
+    },
+    afterResponse: (response) => response
   };
 }
 
@@ -74,7 +75,7 @@ export function stubRequest(verb, path, callback){
         `[FakeServer] No return value for stubbed request for ${verb} ${path}.
          Use \`request.ok(json)\` or similar`);
     }
-    return returnValue;
+    return _config.afterResponse(returnValue, request);
   };
 
   currentServer[verb.toLowerCase()](path, boundCallback);
@@ -88,7 +89,11 @@ const FakeServer = {
     preparePath(fn) {
       _config.preparePath = fn;
     },
+    afterResponse(fn) {
+      _config.afterResponse = fn;
+    }
   },
+
 
   start() {
     Ember.assert('[FakeServer] Cannot start FakeServer while already started. ' +
