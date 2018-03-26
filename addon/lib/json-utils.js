@@ -17,11 +17,7 @@ export function jsonFromRequest(request){
     } catch (e) {
       try {
         // 'Content-Type': 'application/x-www-form-urlencoded'
-        json = JSON.parse(
-          '{"'
-          + decodeURIComponent(request.requestBody.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"'))
-          + '"}'
-        );
+        json = JSON.parse('{"' + decodeURIComponent(request.requestBody.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')) + '"}');
       } catch(e) {
         Ember.Logger.warn(`[FakeServer] Failed to parse json from request.requestBody "${request.requestBody}" (error: ${e})`);
       }
