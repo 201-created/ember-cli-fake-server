@@ -95,16 +95,18 @@ const FakeServer = {
   },
 
 
-  start(LogHandledRequests=true) {
+  start(options = {}) {
     Ember.assert('[FakeServer] Cannot start FakeServer while already started. ' +
                  'Ensure you call `FakeServer.stop()` first.',
                  !FakeServer.isRunning());
+
+    let logging = typeof options.logging === 'undefined' ? true : options.logging;
 
     currentServer = this._currentServer = new Pretender();
     currentServer.prepareBody = JSONUtils.stringifyJSON;
     currentServer.unhandledRequest = Logging.unhandledRequest;
 
-    if (LogHandledRequests) {
+    if (logging) {
         currentServer.handledRequest = Logging.handledRequest;
     }
   },

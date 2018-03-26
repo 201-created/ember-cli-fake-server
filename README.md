@@ -125,6 +125,16 @@ The `request` parameter passed to your callback function is the same one (albeit
 
 ember-cli-fake-server is configured to intercept *all* ajax requests after you call `FakeServer.start()`. Any ajax request that was not stubbed before it was made will [throw an error](https://github.com/201-created/ember-cli-fake-server/blob/master/addon/lib/logging.js#L4) explaining the method and path of the unhandled request.
 
+### Request logging
+
+By default ember-cli-fake-server will log all requests that it handles. To enable/disable logging of successfully handled requests, provide an options object to `FakeServer.start()` that defines a `logging` attribute, for example:
+
+```javascript
+FakeServer.start({ logging: false });
+```
+
+Unhandled requests are always logged.
+
 ### Modifying responses
 
 Use `FakeRequest.configure.afterResponse(fn)` to specify an afterResponse
