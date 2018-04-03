@@ -1,5 +1,6 @@
 import Pretender from 'pretender';
 import Ember from 'ember';
+import { assert } from '@ember/debug';
 import * as Responses from './lib/responses';
 import * as Logging from './lib/logging';
 import * as JSONUtils from './lib/json-utils';
@@ -37,7 +38,7 @@ function bindResponses(request, responseRef){
 
 export function passthroughRequest(verb, path) {
   path = _config.preparePath(path);
-  Ember.assert('[FakeServer] cannot passthrough request if FakeServer is not running',
+  assert('[FakeServer] cannot passthrough request if FakeServer is not running',
                !!currentServer);
 
   currentServer[verb.toLowerCase()](path, currentServer.passthrough);
@@ -45,7 +46,7 @@ export function passthroughRequest(verb, path) {
 
 export function stubRequest(verb, path, callback){
   path = _config.preparePath(path);
-  Ember.assert('[FakeServer] cannot stub request if FakeServer is not running',
+  assert('[FakeServer] cannot stub request if FakeServer is not running',
                !!currentServer);
 
   let boundCallback = (request) => {
@@ -96,7 +97,7 @@ const FakeServer = {
 
 
   start(options = {}) {
-    Ember.assert('[FakeServer] Cannot start FakeServer while already started. ' +
+    assert('[FakeServer] Cannot start FakeServer while already started. ' +
                  'Ensure you call `FakeServer.stop()` first.',
                  !FakeServer.isRunning());
 
