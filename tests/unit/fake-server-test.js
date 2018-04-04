@@ -1,5 +1,5 @@
 import { module, test } from "qunit";
-import FakeServer, { stubRequest } from "ember-cli-fake-server";
+import FakeServer, { stubRequest, setupFakeServer } from "ember-cli-fake-server";
 import ajax from "../helpers/ajax";
 
 module("ember-cli-fake-server: FakeServer", function(hooks) {
@@ -21,13 +21,7 @@ module("ember-cli-fake-server: FakeServer", function(hooks) {
 });
 
 module("ember-cli-fake-server: stubRequest", function(hooks) {
-  hooks.beforeEach(function() {
-    FakeServer.start();
-  });
-
-  hooks.afterEach(function() {
-    FakeServer.stop();
-  });
+  setupFakeServer(hooks);
 
   test("stubs ajax calls", function(assert) {
     assert.expect(1);

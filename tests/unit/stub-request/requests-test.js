@@ -1,5 +1,5 @@
 import { module, test } from "qunit";
-import FakeServer, { stubRequest } from "ember-cli-fake-server";
+import { stubRequest, setupFakeServer } from "ember-cli-fake-server";
 import {
   STATUS_CODES,
   RESPONSE_ALIASES
@@ -7,13 +7,7 @@ import {
 import ajax from "../../helpers/ajax";
 
 module("ember-cli-fake-server:stubRequest responses", function(hooks) {
-  hooks.beforeEach(function() {
-    FakeServer.start();
-  });
-
-  hooks.afterEach(function() {
-    FakeServer.stop();
-  });
+  setupFakeServer(hooks);
 
   function testRequestMethod(methodName, code) {
     let message = `\`request#${methodName}\` returns status code ${code}`;

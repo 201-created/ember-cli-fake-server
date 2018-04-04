@@ -36,6 +36,16 @@ function bindResponses(request, responseRef){
   });
 }
 
+export function setupFakeServer(hooks, options = {}) {
+  hooks.beforeEach(function() {
+    FakeServer.start(options);
+  });
+
+  hooks.afterEach(function() {
+    FakeServer.stop();
+  });
+}
+
 export function passthroughRequest(verb, path) {
   path = _config.preparePath(path);
   assert('[FakeServer] cannot passthrough request if FakeServer is not running',

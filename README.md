@@ -10,7 +10,7 @@ ember-cli-fake-server is an ember-cli addon that makes it extremely simple to st
 ## Installation
 
 * `ember install ember-cli-fake-server`
-* Call `FakeServer.start()` to start stubbing, and `FakeServer.stop()` to stop stubbing
+* Call `FakeServer.start()` to start stubbing, and `FakeServer.stop()` to stop stubbing or use `setupFakeServer(hooks)` when using "new test api".
 * In tests, use `stubRequest(verb, path, callback)` to stub ajax requests
 
 ## Usage
@@ -22,33 +22,29 @@ In your test, use `stubRequest` for each ajax request you would like to stub.
 Here's an example ember test:
 
 ```javascript
-import { module, test } from 'ember-qunit';
-import FakeServer, { stubRequest } from 'ember-cli-fake-server';
+import { module, test } from 'qunit';
+import jQuery from 'jquery';
+import { stubRequest, setupFakeServer } from 'ember-cli-fake-server';
 
-module('using ember-cli-fake-server', {
-  beforeEach() {
-    FakeServer.start();
-  },
-  afterEach() {
-    FakeServer.stop();
-  }
-});
+module('using ember-cli-fake-server', function(hooks) {
+  setupFakeServer(hooks);
 
-test('some ajax', (assert) => {
-  const done = assert.async();
-  assert.expect(1);
+  test('some ajax', function(assert) {
+    const done = assert.async();
+    assert.expect(1);
   
-  let didCallAjax = false;
-  stubRequest('get', '/some-url', (request) => {
-    didCallAjax = true;
-    request.ok({}); // send empty response back
-  });
+    let didCallAjax = false;
+    stubRequest('get', '/some-url', (request) => {
+      didCallAjax = true;
+      request.ok({}); // send empty response back
+    });
   
-  Ember.$.ajax('/some-url', {
-    complete() {
-      assert.ok(didCallAjax, 'called ajax');
-      done();
-    }
+    jQuery.ajax('/some-url', {
+      complete() {
+        assert.ok(didCallAjax, 'called ajax');
+        done();
+      }
+    });
   });
 });
 ```
@@ -133,11 +129,17 @@ By default ember-cli-fake-server will log all requests that it handles. To enabl
 FakeServer.start({ logging: false });
 ```
 
+or
+
+```javascript
+setupFakeServer(hooks, { logging: false });
+```
+
 Unhandled requests are always logged.
 
 ### Modifying responses
 
-Use `FakeRequest.configure.afterResponse(fn)` to specify an afterResponse
+Use `FakeServer.configure.afterResponse(fn)` to specify an afterResponse
 callback. This can be used to globally modify all requests in some specified
 way. The function you pass to `afterResponse` will be called with two arguments:
 `response` and `request`. It must return an array of `[statusCode, headers, json|string]`.
@@ -145,7 +147,7 @@ way. The function you pass to `afterResponse` will be called with two arguments:
 Example:
 
 ```javascript
-FakeRequest.configure.afterResponse(function(response /*, request */) {
+FakeServer.configure.afterResponse(function(response /*, request */) {
   // response === [200, {"content-type": "application/json"}, {foo: 'bar'}]
   let [status, headers, json] = response;
   if (json.foo) { // optionally modify json
@@ -154,7 +156,7 @@ FakeRequest.configure.afterResponse(function(response /*, request */) {
   return [status, headers, json];
 });
 
-FakeServer.stubRequest('get', '/users/1', function(request) {
+stubRequest('get', '/users/1', function(request) {
   let response = this.ok({foo: 'bar'});
 
   // `response` is passed as 1st argument to afterResponse hook,
