@@ -89,6 +89,52 @@ test('#json reads JSON in request payload', (assert) => {
   });
 });
 
+test('json() function parses x-www-form-urlencoded request payload', (assert) => {
+  let done = assert.async();
+  assert.expect(1);
+
+  const jsonPayload = {
+    foo: 'bar',
+    hello: 'World!',
+  };
+  const urlEncodedPayload = "foo=bar&hello=World!";
+
+  stubRequest('post', '/blah', (request) => {
+    assert.deepEqual(request.json(), jsonPayload, 'POST payload');
+    request.noContent();
+  });
+
+  jQuery.ajax('/blah', {
+    type: 'POST',
+    data: urlEncodedPayload,
+    contentType: 'application/x-www-form-urlencoded',
+    complete: done
+  });
+});
+
+test('json() function parses x-www-form-urlencoded request payload with special characters', (assert) => {
+  let done = assert.async();
+  assert.expect(1);
+
+  const jsonPayload = {
+    foo: 'bar',
+    password: '$€áÉîÖùñÑ',
+  };
+  const urlEncodedPayload = "foo=bar&password=$€áÉîÖùñÑ";
+
+  stubRequest('post', '/blah', (request) => {
+    assert.deepEqual(request.json(), jsonPayload, 'POST payload');
+    request.noContent();
+  });
+
+  jQuery.ajax('/blah', {
+    type: 'POST',
+    data: urlEncodedPayload,
+    contentType: 'application/x-www-form-urlencoded',
+    complete: done
+  });
+});
+
 test('FakeServer.config.afterResponse can modify responses', (assert) => {
   let done = assert.async();
   assert.expect(6);
