@@ -54,7 +54,7 @@ export function passthroughRequest(verb, path) {
   currentServer[verb.toLowerCase()](path, currentServer.passthrough);
 }
 
-export function stubRequest(verb, path, callback){
+export function stubRequest(verb, path, callback, timing){
   path = _config.preparePath(path);
   assert('[FakeServer] cannot stub request if FakeServer is not running',
                !!currentServer);
@@ -89,7 +89,7 @@ export function stubRequest(verb, path, callback){
     return _config.afterResponse(returnValue, request);
   };
 
-  currentServer[verb.toLowerCase()](path, boundCallback);
+  currentServer[verb.toLowerCase()](path, boundCallback, timing);
 }
 
 const FakeServer = {
