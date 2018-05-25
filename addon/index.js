@@ -1,9 +1,9 @@
 import Pretender from 'pretender';
-import Ember from 'ember';
 import { assert } from '@ember/debug';
 import * as Responses from './lib/responses';
 import * as Logging from './lib/logging';
 import * as JSONUtils from './lib/json-utils';
+import { warn } from './lib/logger';
 
 let currentServer;
 
@@ -13,7 +13,7 @@ function defaultConfig() {
   return {
     preparePath: (path) => path,
     fixtureFactory: () => {
-      Ember.Logger.warn('[FakeServer] `fixture` called but no fixture factory is registered');
+      warn('[FakeServer] `fixture` called but no fixture factory is registered');
     },
     afterResponse: (response) => response
   };
@@ -128,7 +128,7 @@ const FakeServer = {
 
   stop() {
     if (!FakeServer.isRunning()) {
-      Ember.Logger.warn('[FakeServer] called `stop` without having started.');
+      warn('[FakeServer] called `stop` without having started.');
       return;
     }
     currentServer.shutdown();
