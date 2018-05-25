@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { warn } from './logger';
 
 export function stringifyJSON(json={}){
   return JSON.stringify(json);
@@ -10,7 +10,7 @@ export function jsonFromRequest(request){
     try {
       json = JSON.parse(request.requestBody);
     } catch(e) {
-      Ember.Logger.warn(`[FakeServer] Failed to parse json from request.requestBody "${request.requestBody}" (error: ${e})`);
+      warn(`[FakeServer] Failed to parse json from request.requestBody "${request.requestBody}" (error: ${e})`);
     }
   }
 
