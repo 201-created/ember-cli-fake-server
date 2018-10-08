@@ -66,6 +66,7 @@ The `request` parameter has the following methods, corresponding to HTTP status 
   * `error` — 422
   * `notFound` — 404
   * `created` — 201
+  * `accepted` - 202
   * `noContent` — 204
   * `unauthorized` — 401
 
