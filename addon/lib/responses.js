@@ -3,6 +3,7 @@ export const STATUS_CODES = {
   notFound: 404,
   ok: 200,
   created: 201,
+  accepted: 202,
   noContent: 204,
   unauthorized: 401
 };
@@ -33,6 +34,12 @@ export function ok(status, json){
 
 export function created(status, json){
   if (!json) { json = status; status = STATUS_CODES.created; }
+
+  return [status, jsonMimeType, json];
+}
+
+export function accepted(status, json){
+  if (!json) { json = status; status = STATUS_CODES.accepted; }
 
   return [status, jsonMimeType, json];
 }
